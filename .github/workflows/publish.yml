@@ -19,8 +19,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd publish
-          npm install
+          cd src
+          npm ci
 
       - name: Build and publish
         run: |
