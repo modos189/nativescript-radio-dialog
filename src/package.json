@@ -1,7 +1,7 @@
 {
   "name": "nativescript-radio-dialog",
   "version": "1.0.0",
-  "description": "Your awesome NativeScript plugin.",
+  "description": "A NativeScript plugin that provides radio button dialogs.",
   "main": "nativescript-radio-dialog",
   "typings": "index.d.ts",
   "nativescript": {
@@ -26,10 +26,6 @@
     "Android",
     "iOS"
   ],
-  "author": {
-    "name": "Your Name",
-    "email": "youremail@yourdomain.com"
-  },
   "bugs": {
     "url": "https://github.com/modos189/nativescript-radio-dialog/issues"
   },
