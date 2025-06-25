@@ -1,6 +1,6 @@
 {
   "name": "nativescript-radio-dialog",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A NativeScript plugin that provides radio button dialogs.",
   "main": "nativescript-radio-dialog",
   "typings": "index.d.ts",
