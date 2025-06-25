@@ -126,6 +126,15 @@ Shows a radio button dialog and returns a Promise that resolves with the user's 
 | `selectedItem` | `string` | Text of selected item, or empty string if cancelled |
 | `cancelled` | `boolean` | `true` if dialog was cancelled, `false` if item was selected |
 
+## Screenshots
+
+<details>
+<summary>Android Material You</summary>
+
+![Android Material You](screenshots/android-material-you.jpg)
+
+</details>
+
 ## Platform Differences
 
 ### Android
