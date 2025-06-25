@@ -1,0 +1,17 @@
+<Page loaded="onLoaded" class="page">
+    <ActionBar title="Radio Dialog Demo" class="action-bar" />
+
+    <ScrollView>
+        <StackLayout class="p-20">
+            <Label text="NativeScript Radio Dialog Demo" class="h1 text-center" />
+
+            <Button text="Basic Dialog" tap="showBasicDialog" class="btn btn-primary m-10" />
+
+            <Button text="Dialog with Preselection" tap="showPreselectedDialog" class="btn btn-primary m-10" />
+
+            <Button text="Custom Button Text" tap="showCustomButtonDialog" class="btn btn-primary m-10" />
+
+            <Label text="{{ resultText }}" class="h3 text-center m-20" wordWrap="true" />
+        </StackLayout>
+    </ScrollView>
+</Page>

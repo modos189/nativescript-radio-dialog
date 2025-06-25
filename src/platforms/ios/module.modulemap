@@ -1,0 +1,4 @@
+module RadioDialogHelper {
+    header "RadioDialogHelper-Swift.h"
+    export *
+}

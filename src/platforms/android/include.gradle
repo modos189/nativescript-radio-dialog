@@ -1,0 +1,7 @@
+
+
+// Plugin configuration for Android platform
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+}

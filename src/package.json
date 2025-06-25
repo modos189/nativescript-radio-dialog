@@ -1,0 +1,47 @@
+{
+  "name": "nativescript-radio-dialog",
+  "version": "1.0.0",
+  "description": "Your awesome NativeScript plugin.",
+  "main": "nativescript-radio-dialog",
+  "typings": "index.d.ts",
+  "nativescript": {
+    "id": "org.nativescript.radiodialog",
+    "platforms": {
+      "android": "8.0.0",
+      "ios": "8.0.0"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/modos189/nativescript-radio-dialog.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf *.js *.js.map *.d.ts !index.d.ts node_modules package-lock.json && npm i",
+    "prepack": "npm run build"
+  },
+  "keywords": [
+    "NativeScript",
+    "JavaScript",
+    "Android",
+    "iOS"
+  ],
+  "author": {
+    "name": "Your Name",
+    "email": "youremail@yourdomain.com"
+  },
+  "bugs": {
+    "url": "https://github.com/modos189/nativescript-radio-dialog/issues"
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/modos189/nativescript-radio-dialog",
+  "devDependencies": {
+    "@nativescript/core": "^8.0.0",
+    "@nativescript/types": "^8.0.0",
+    "typescript": "^4.9.0",
+    "rimraf": "^3.0.0",
+    "semver": "^7.3.0"
+  },
+  "dependencies": {},
+  "bootstrapper": "nativescript-plugin-seed"
+}
