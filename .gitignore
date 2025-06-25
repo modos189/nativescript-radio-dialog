@@ -20,6 +20,7 @@ publish/package
 demo/report/report.html
 demo/report/stats.json
 !demo-vue/app/app.js
+demo/package-lock.json
 
 # Build artifacts
 *.aar

@@ -3,6 +3,7 @@ package org.nativescript.radiodialog;
 import android.app.Activity;
 import android.content.DialogInterface;
 import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class RadioDialogHelper {
     
@@ -27,7 +28,7 @@ public class RadioDialogHelper {
         
         final int[] checkedItem = {selectedIndex >= 0 && selectedIndex < items.length ? selectedIndex : -1};
         
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(activity);
         builder.setTitle(title);
         
         builder.setSingleChoiceItems(items, checkedItem[0],
