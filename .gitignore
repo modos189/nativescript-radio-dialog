@@ -10,6 +10,7 @@ src/*.d.ts
 !src/references.d.ts
 !demo/karma.conf.js
 !demo/app/tests/*.js
+!demo/app/*.js
 demo/*.d.ts
 !demo/references.d.ts
 demo/lib
