@@ -135,6 +135,13 @@ Shows a radio button dialog and returns a Promise that resolves with the user's 
 
 </details>
 
+<details>
+<summary>iOS</summary>
+
+![iOS](screenshots/ios.jpg)
+
+</details>
+
 ## Platform Differences
 
 ### Android
