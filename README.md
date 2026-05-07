@@ -12,6 +12,7 @@ A NativeScript plugin that provides radio button dialogs for both Android and iO
 - 🔧 **Easy to use**: Simple Promise-based API
 - ⚡ **Lightweight**: No external dependencies beyond NativeScript core
 - 🎯 **TypeScript**: Full TypeScript support with type definitions
+- 🔔 **Live selection**: Optional `onItemSelect` callback for immediate per-tap notifications
 
 ## Installation
 
@@ -60,6 +61,26 @@ const result = await RadioDialog.show({
     okButtonText: "Apply",
     cancelButtonText: "Skip"
 });
+
+// With live selection callback
+let currentIndex = -1;
+
+const result = await RadioDialog.show({
+    title: "Select Theme",
+    items: ["Light", "Dark", "System"],
+    onItemSelect: ({ selectedIndex, selectedItem }) => {
+        // Called immediately on every tap, before the dialog closes.
+        // On Android the dialog stays open; on iOS it fires alongside Promise resolution.
+        currentIndex = selectedIndex;
+        applyThemePreview(selectedItem);
+    }
+});
+
+if (result.cancelled) {
+    // On Android with onItemSelect the dialog can only be closed via Cancel,
+    // so this always means the user dismissed the dialog
+    revertThemePreview();
+}
 ```
 
 ### Vue.js
@@ -115,8 +136,9 @@ Shows a radio button dialog and returns a Promise that resolves with the user's 
 | `title` | `string` | **Required** | Dialog title text |
 | `items` | `string[]` | **Required** | Array of options to display |
 | `selectedIndex` | `number` | `-1` | Index of initially selected item (0-based) |
-| `okButtonText` | `string` | `"OK"` | Text for the OK button (Android only) |
+| `okButtonText` | `string` | `"OK"` | Text for the OK button (Android only, hidden when `onItemSelect` is set) |
 | `cancelButtonText` | `string` | `"Cancel"` | Text for the cancel button |
+| `onItemSelect` | `(result: { selectedIndex: number; selectedItem: string }) => void` | - | Callback fired immediately on each item tap (see [Live selection](#live-selection)) |
 
 #### Returns: `Promise<RadioDialogResult>`
 
@@ -142,17 +164,26 @@ Shows a radio button dialog and returns a Promise that resolves with the user's 
 
 </details>
 
+## Live selection
+
+When `onItemSelect` is provided the dialog notifies you on every tap without waiting for confirmation:
+
+- **Android**: the dialog remains open after each tap. `onItemSelect` fires for every selection change. Because the OK button is hidden, the only way to close the dialog is Cancel or the back gesture - so the Promise always resolves with `cancelled: true`, meaning the user dismissed the dialog.
+- **iOS**: tapping an item closes the dialog immediately (native behavior). `onItemSelect` fires first, then the Promise resolves with the same result - both carry the selected item.
+
+Without `onItemSelect`: Android shows OK and Cancel buttons - the Promise resolves with the selected item only after the user confirms with OK; iOS closes and resolves on tap directly.
+
 ## Platform Differences
 
 ### Android
 - Uses Material Design dialogs with radio buttons
-- Shows both OK and Cancel buttons
+- Shows OK and Cancel buttons by default; OK is hidden when `onItemSelect` is provided
 - Supports Material Design 2 and 3 themes
 
 ### iOS
 - Uses native `UIAlertController` with action sheet style
-- Each item is a separate action button
-- Only shows Cancel button (items are directly selectable)
+- Each item is a separate action button - tapping selects and closes immediately
+- Only shows Cancel button
 - Automatically handles iPad positioning
 
 ## Requirements

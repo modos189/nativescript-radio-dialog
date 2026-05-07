@@ -21,12 +21,15 @@ export async function showBasicDialog() {
     const result = await RadioDialog.show({
       title: "Select Language",
       items: ["English", "Русский", "Español", "Français"],
+      onItemSelect: ({ selectedIndex, selectedItem }) => {
+        console.log("Selected:", selectedItem);
+      },
     });
 
     if (!result.cancelled) {
       viewModel.set(
         "resultText",
-        `Selected: ${result.selectedItem} (index: ${result.selectedIndex})`
+        `Selected: ${result.selectedItem} (index: ${result.selectedIndex})`,
       );
     } else {
       viewModel.set("resultText", "Dialog was cancelled");
@@ -48,7 +51,7 @@ export async function showPreselectedDialog() {
     if (!result.cancelled) {
       viewModel.set(
         "resultText",
-        `Selected: ${result.selectedItem} (index: ${result.selectedIndex})`
+        `Selected: ${result.selectedItem} (index: ${result.selectedIndex})`,
       );
     } else {
       viewModel.set("resultText", "Dialog was cancelled");
@@ -72,7 +75,7 @@ export async function showCustomButtonDialog() {
     if (!result.cancelled) {
       viewModel.set(
         "resultText",
-        `Selected: ${result.selectedItem} (index: ${result.selectedIndex})`
+        `Selected: ${result.selectedItem} (index: ${result.selectedIndex})`,
       );
     } else {
       viewModel.set("resultText", "Dialog was cancelled");

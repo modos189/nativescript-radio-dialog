@@ -58,6 +58,7 @@ public class RadioDialogHelper {
         int selectedIndex,
         String okButtonText,
         String cancelButtonText,
+        boolean immediateSelection,
         RadioDialogCallback callback
     ) {
         if (activity == null || activity.isFinishing()) {
@@ -71,50 +72,82 @@ public class RadioDialogHelper {
                 : -1,
         };
 
+        // Prevent the cancel callback from firing more than once
+        final boolean[] callbackFired = { false };
+
         AlertDialog.Builder builder = createOptimalDialogBuilder(activity);
         builder.setTitle(title);
 
-        builder.setSingleChoiceItems(
-            items,
-            checkedItem[0],
-            new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    checkedItem[0] = which;
+        if (immediateSelection) {
+            builder.setSingleChoiceItems(
+                items,
+                checkedItem[0],
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        callback.onResult(which, items[which], false);
+                    }
                 }
-            }
-        );
+            );
 
-        builder.setPositiveButton(
-            okButtonText != null ? okButtonText : "OK",
-            new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    int selected = checkedItem[0];
-                    if (selected >= 0 && selected < items.length) {
-                        callback.onResult(selected, items[selected], false);
-                    } else {
+            builder.setNegativeButton(
+                cancelButtonText != null ? cancelButtonText : "Cancel",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (!callbackFired[0]) {
+                            callbackFired[0] = true;
+                            callback.onResult(-1, null, true);
+                        }
+                    }
+                }
+            );
+        } else {
+            builder.setSingleChoiceItems(
+                items,
+                checkedItem[0],
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        checkedItem[0] = which;
+                    }
+                }
+            );
+
+            builder.setPositiveButton(
+                okButtonText != null ? okButtonText : "OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int selected = checkedItem[0];
+                        if (selected >= 0 && selected < items.length) {
+                            callback.onResult(selected, items[selected], false);
+                        } else {
+                            callback.onResult(-1, null, true);
+                        }
+                    }
+                }
+            );
+
+            builder.setNegativeButton(
+                cancelButtonText != null ? cancelButtonText : "Cancel",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
                         callback.onResult(-1, null, true);
                     }
                 }
-            }
-        );
-
-        builder.setNegativeButton(
-            cancelButtonText != null ? cancelButtonText : "Cancel",
-            new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    callback.onResult(-1, null, true);
-                }
-            }
-        );
+            );
+        }
 
         builder.setOnCancelListener(
             new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
-                    callback.onResult(-1, null, true);
+                    if (!callbackFired[0]) {
+                        callbackFired[0] = true;
+                        callback.onResult(-1, null, true);
+                    }
                 }
             }
         );

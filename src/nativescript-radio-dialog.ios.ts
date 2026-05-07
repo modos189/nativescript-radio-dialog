@@ -13,6 +13,9 @@ export class RadioDialog extends RadioDialogBase {
                     options.selectedIndex !== undefined ? options.selectedIndex : -1,
                     options.cancelButtonText || 'Cancel',
                     (selectedIndex: number, selectedItem: string, cancelled: boolean) => {
+                        if (!cancelled && options.onItemSelect) {
+                            options.onItemSelect({ selectedIndex, selectedItem: selectedItem || '' });
+                        }
                         resolve({
                             selectedIndex: selectedIndex,
                             selectedItem: selectedItem || '',

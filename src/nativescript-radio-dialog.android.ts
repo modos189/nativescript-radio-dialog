@@ -20,11 +20,15 @@ export class RadioDialog extends RadioDialogBase {
 
                 const callback = new org.nativescript.radiodialog.RadioDialogHelper.RadioDialogCallback({
                     onResult(selectedIndex: number, selectedItem: string, cancelled: boolean) {
-                        resolve({
-                            selectedIndex: selectedIndex,
-                            selectedItem: selectedItem || '',
-                            cancelled: cancelled
-                        });
+                        if (!cancelled && options.onItemSelect) {
+                            options.onItemSelect({ selectedIndex, selectedItem: selectedItem || '' });
+                        } else {
+                            resolve({
+                                selectedIndex: selectedIndex,
+                                selectedItem: selectedItem || '',
+                                cancelled: cancelled
+                            });
+                        }
                     }
                 });
 
@@ -36,6 +40,7 @@ export class RadioDialog extends RadioDialogBase {
                     options.selectedIndex !== undefined ? options.selectedIndex : -1,
                     options.okButtonText || 'OK',
                     options.cancelButtonText || 'Cancel',
+                    !!options.onItemSelect,
                     callback
                 );
             } catch (error) {
